@@ -9,7 +9,6 @@ import moment from 'moment'
 import { ironSession } from 'iron-session/express'
 
 import parseData from './src/_middlewares/parse-data.js'
-import addUserToLayout from './src/_middlewares/add-user-to-layout.js'
 
 const app = express() // The instance that "host" our server
 const port = process.env.PORT || 3000 // The port number our server runs on
@@ -49,7 +48,6 @@ app.use(ironSession({
     secure: process.env.NODE_ENV === 'production'
   }
 }))
-app.use(addUserToLayout)
 
 app.use(express.urlencoded({ extended: true })) // parses url queries to req.query
 app.use(express.json()) // parses json to req.body

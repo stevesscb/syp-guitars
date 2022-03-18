@@ -1,0 +1,61 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int      @id @default(autoincrement())
+  username      String   @unique
+  email         String   @unique
+  passwordHash  String
+  guitars       Guitar[]
+  receiverChats Chat[]   @relation("receiver")
+  senderChats   Chat[]   @relation("sender")
+}
+
+model Guitar {
+  id          Int      @id @default(autoincrement())
+  type        Type     @default(ELECTRIC)
+  make        String
+  model       String
+  year        Int
+  price       Float
+  description String
+  isSold      Boolean  @default(false)
+  createdAt   DateTime @default(now()) @db.Timestamptz()
+  user        User?    @relation(fields: [userId], references: [id])
+  userId      Int?
+  images      Image[]
+  chats       Chat[]
+}
+
+model Image {
+  id       Int     @id @default(autoincrement())
+  url      String
+  guitar   Guitar? @relation(fields: [guitarId], references: [id])
+  guitarId Int
+}
+
+model Chat {
+  id         Int      @id @default(autoincrement())
+  message    String
+  createdAt  DateTime @default(now()) @db.Timestamptz()
+  reciever   User     @relation("receiver", fields: [recieverId], references: [id])
+  recieverId Int
+  sender     User     @relation("sender", fields: [senderId], references: [id])
+  senderId   Int
+  guitar     Guitar?  @relation(fields: [guitarId], references: [id])
+  guitarId   Int
+}
+
+enum Type {
+  ELECTRIC
+  ACOUSTIC
+}
