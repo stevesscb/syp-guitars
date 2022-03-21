@@ -11,6 +11,7 @@ router.delete('/api/user/logout', (await import('./controllers/api/user/logout.j
 
 // API | MY GUITARS
 router.post('/api/my/guitars/create', authenticateUser('json'), (await import('./controllers/api/my/guitars/create.js')).default)
+router.delete('/api/my/guitars/:id', authenticateUser('json'), (await import('./controllers/api/my/guitars/destroy.js')).default)
 
 // STATIC
 router.get('/', (await import('./controllers/static/home.js')).default)
