@@ -10,10 +10,10 @@ router.post('/api/user/login', (await import('./controllers/api/user/login.js'))
 router.delete('/api/user/logout', (await import('./controllers/api/user/logout.js')).default)
 
 // API | MY GUITARS
+router.get('/api/my/guitars', authenticateUser('json'), (await import('./controllers/api/my/guitars/index.js')).default)
 router.post('/api/my/guitars/create', authenticateUser('json'), (await import('./controllers/api/my/guitars/create.js')).default)
 router.delete('/api/my/guitars/:id', authenticateUser('json'), (await import('./controllers/api/my/guitars/destroy.js')).default)
-
-// STATIC
-router.get('/', (await import('./controllers/static/home.js')).default)
+router.get('/api/my/guitars/:id', authenticateUser('json'), (await import('./controllers/api/my/guitars/show.js')).default)
+router.put('/api/my/guitars/:id', authenticateUser('json'), (await import('./controllers/api/my/guitars/update.js')).default)
 
 export default router
