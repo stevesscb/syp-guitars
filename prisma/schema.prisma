@@ -47,8 +47,8 @@ model Chat {
   id         Int      @id @default(autoincrement())
   message    String
   createdAt  DateTime @default(now()) @db.Timestamptz()
-  reciever   User     @relation("receiver", fields: [recieverId], references: [id])
-  recieverId Int
+  receiver   User     @relation("receiver", fields: [receiverId], references: [id])
+  receiverId Int
   sender     User     @relation("sender", fields: [senderId], references: [id])
   senderId   Int
   guitar     Guitar?  @relation(fields: [guitarId], references: [id])

@@ -1,7 +1,9 @@
-import prisma from '../../../_helpers/prisma.js'
-import handleErrors from '../../../_helpers/handle-errors.js'
+import prisma from '../../_helpers/prisma.js'
+import handleErrors from '../../_helpers/handle-errors.js'
 
-const controllersApiGuitarsShow = async (req, res) => {
+const controllersApiGuitarShow = async (req, res) => {
+  // you do not have category. so you cannot use category: true
+
   try {
     const { params: { id } } = req
     const foundGuitar = await prisma.Guitar.findUnique({
@@ -16,6 +18,4 @@ const controllersApiGuitarsShow = async (req, res) => {
   }
 }
 
-export default [
-  controllersApiGuitarsShow
-]
+export default controllersApiGuitarShow
