@@ -5,7 +5,6 @@ import _ from 'lodash'
 
 import prisma from '../../_helpers/prisma.js'
 import handleErrors from '../../_helpers/handle-errors.js'
-import uploadFileAsync from '../../_helpers/upload-file.js'
 
 const signupSchema = yup.object({
   email: yup.string().email().required().test({
@@ -38,10 +37,6 @@ const controllersApiUserSignup = async (req, res) => {
   try {
     const { body } = req
     const verifiedData = await signupSchema.validate(body, { abortEarly: false, stripUnknown: true }) // add stripUnknown: true
-
-    // To proceed without waiting for file upload to s3, use without await.
-    // To wait for file to finish uploading to s3, use await
-    await uploadFileAsync(verifiedData, req) // add this line!
 
     const dataToSave = {
       email: verifiedData.email,

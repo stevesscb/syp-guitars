@@ -7,6 +7,7 @@ import compileSass from 'express-compile-sass'
 import methodOverride from 'method-override'
 import moment from 'moment'
 import { ironSession } from 'iron-session/express'
+import cors from 'cors'
 
 import parseData from './src/_middlewares/parse-data.js'
 
@@ -47,6 +48,10 @@ app.use(ironSession({
   cookieOptions: {
     secure: process.env.NODE_ENV === 'production'
   }
+}))
+app.use(cors({
+  credentials: true,
+  origin: process.env.CORS_ORIGIN
 }))
 
 app.use(express.urlencoded({ extended: true })) // parses url queries to req.query
