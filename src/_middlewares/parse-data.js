@@ -7,7 +7,7 @@ const dirname = `${new URL('.', import.meta.url).pathname}../../tmp`
 if (!fs.existsSync(dirname)) fs.mkdirSync(dirname)
 
 const parseData = (req, res, next) => {
-  if (!req.headers['content-type'].includes('multipart')) return next()
+  if (!req.headers?.['content-type']?.includes('multipart')) return next()
 
   const form = formidable({ uploadDir: dirname, keepExtensions: true, multiples: true })
 
