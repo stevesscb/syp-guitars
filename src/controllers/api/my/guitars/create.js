@@ -3,6 +3,7 @@ import yup from 'yup'
 
 import prisma from '../../../_helpers/prisma.js'
 import handleErrors from '../../../_helpers/handle-errors.js'
+import uploadFileAsync from '../../../_helpers/upload-file.js'
 
 const createSchema = yup.object({
   type: yup.string().required(),
@@ -12,7 +13,10 @@ const createSchema = yup.object({
   price: yup.number().min(0.01),
   description: yup.string(),
   isSold: yup.boolean(),
-  date: yup.date()
+  date: yup.date(),
+  images: yup.array().of(yup.object({
+    url: yup.mixed().required()
+  }))
 })
 
 const controllersApiMyGuitarCreate = async (req, res) => {
@@ -31,14 +35,33 @@ const controllersApiMyGuitarCreate = async (req, res) => {
       stripUnknown: true
     })
 
+    await uploadFileAsync(verifiedData, req)
+
+    const dataToSave = {
+      type: verifiedData.type,
+      make: verifiedData.make,
+      model: verifiedData.model,
+      year: verifiedData.year,
+      price: verifiedData.price,
+      description: verifiedData.description,
+      isSold: verifiedData.isSold,
+      date: verifiedData.date,
+      images: {
+        create: verifiedData.images
+      }
+    }
+
     const newGuitar = await prisma.guitar.create({
       data: {
-        ...verifiedData,
+        ...dataToSave,
         user: {
           connect: {
             id: userId
           }
         }
+      },
+      include: {
+        images: true
       }
     })
 

@@ -37,6 +37,7 @@ const uploadFileAsync = async (data, { files }) => {
         fs.unlinkSync(file.filepath)
         return uploadedFile.Location
       }).catch((err) => {
+        console.log(err) // eslint-disable-line
         fs.unlinkSync(file.filepath)
         return err
       }))
