@@ -14,6 +14,9 @@ const controllersApiMyGuitars = async (req, res) => {
       where,
       orderBy: {
         [orderBy]: sortBy
+      },
+      include: {
+        images: true
       }
     })
 
