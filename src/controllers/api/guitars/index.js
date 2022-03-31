@@ -9,6 +9,9 @@ const controllersMyGuitars = async (req, res) => {
     const foundGuitars = await prisma.guitar.findMany({
       orderBy: {
         [orderBy]: sortBy
+      },
+      include: {
+        images: true
       }
     })
 
