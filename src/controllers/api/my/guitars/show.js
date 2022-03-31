@@ -7,7 +7,8 @@ const controllersApiGuitarsShow = async (req, res) => {
     const foundGuitar = await prisma.Guitar.findUnique({
       where: { id: Number(id) },
       include: {
-        user: true
+        user: true,
+        images: true
       }
     })
     return res.status(200).json(foundGuitar)

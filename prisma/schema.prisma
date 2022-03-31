@@ -39,8 +39,8 @@ model Guitar {
 model Image {
   id       Int     @id @default(autoincrement())
   url      String
-  guitar   Guitar? @relation(fields: [guitarId], references: [id])
-  guitarId Int
+  guitar   Guitar? @relation(fields: [guitarId], references: [id], onDelete: Cascade)
+  guitarId Int?
 }
 
 model Chat {
@@ -51,8 +51,8 @@ model Chat {
   receiverId Int
   sender     User     @relation("sender", fields: [senderId], references: [id])
   senderId   Int
-  guitar     Guitar?  @relation(fields: [guitarId], references: [id])
-  guitarId   Int
+  guitar     Guitar?  @relation(fields: [guitarId], references: [id], onDelete: Cascade)
+  guitarId   Int?
 }
 
 enum Type {
